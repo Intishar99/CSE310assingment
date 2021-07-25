@@ -10,18 +10,24 @@ import com.sun.jdi.connect.spi.Connection;
 import javax.swing.JOptionPane;
 import java.sql.DriverManager;
 import java.sql.*;
+import javax.swing.JFrame;
 
 
 /**
  *
  * @author HP-NPC
  */
-public class Stdloginfront extends javax.swing.JFrame {
 
+
+public class Stdloginfront extends javax.swing.JFrame {
+     
+       
+      
     /**
      * Creates new form Stdloginfront
      */
     public Stdloginfront() {
+        
         initComponents();
     }
 
@@ -124,20 +130,31 @@ public class Stdloginfront extends javax.swing.JFrame {
 
     private void inActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inActionPerformed
         // TODO add your handling code here:
-       try {
+      
+        try {
            Class.forName("com.mysql.jdbc.Driver");
            java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentinfo","root","Harrypotter7");
            String sql = "Select * from students where Email = ? and Password = ?";
            PreparedStatement pst = con.prepareStatement(sql);
            pst.setString(1, user.getText());
            pst.setString(2, pass.getText());
+          
+           
+           
            ResultSet rs = pst.executeQuery();
            
            if(rs.next()){
-           JOptionPane.showMessageDialog(null,"Matched");
+           Runner run = new Runner(user.getText());
+          // System.out.println(user.getText());
+           // System.out.println(run.Username);
+               
+          Sectionselect selec = new Sectionselect(run.Username) ;
+           selec.setVisible(true);
+           selec.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+              super.dispose();
            }
            else{
-        JOptionPane.showMessageDialog(null," Did not Match");
+        JOptionPane.showMessageDialog(null,"Email or Password is incorrect , please retry or sign-up if you are not registered ");
        }
            con.close();
            
@@ -147,6 +164,7 @@ public class Stdloginfront extends javax.swing.JFrame {
        
        catch (Exception e) {
            JOptionPane.showMessageDialog(null,e);
+           
        }
         
     }//GEN-LAST:event_inActionPerformed
@@ -155,7 +173,7 @@ public class Stdloginfront extends javax.swing.JFrame {
         // TODO add your handling code here:
         Stdsignup up = new Stdsignup();
         up.setVisible(true);
-        
+        up.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         
     }//GEN-LAST:event_upActionPerformed
@@ -164,6 +182,8 @@ public class Stdloginfront extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+       
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -191,6 +211,8 @@ public class Stdloginfront extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Stdloginfront().setVisible(true);
+                
+
             }
         });
     }
@@ -202,6 +224,6 @@ public class Stdloginfront extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField pass;
     private javax.swing.JButton up;
-    private javax.swing.JTextField user;
+    public static javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }

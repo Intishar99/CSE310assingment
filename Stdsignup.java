@@ -129,6 +129,7 @@ public class Stdsignup extends javax.swing.JFrame {
             
             pst.executeUpdate();
              JOptionPane.showMessageDialog(null,"Updated");
+             super.dispose();
             
         
         }
